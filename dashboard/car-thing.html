@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport"
+            content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href=
+"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+      <style>
+         img{
+	   height: 568px;
+	   width: 800px;
+         }
+         h1{
+           color: darkgreen;
+           margin-top: 20px;
+           font-family: Comic Sans MS, cursive, sans-serif;
+         }
+         .button{
+           margin-left: 45%;
+         }
+
+	.column {
+	  float: left;
+	  width: 50%;
+	}
+
+	/* Clear floats after the columns */
+	.row {
+          margin-left: 10px;
+          margin-right: 10px;
+        }
+
+	.row:after {
+	  content: "";
+	  display: table;
+	  clear: both;
+	}
+      </style>
+      <script>
+
+     // To get the dashboard to work, you'll need to point this to the ip / port
+     // the erlang server is running on. Below is an semi-reasonable default.
+     let websocket_url = "ws://localhost:7000/dashboard";
+
+	 function initVideo() {
+                const video = document.querySelector('#video');
+
+        window.navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            video.srcObject = stream;
+            video.onloadedmetadata = (e) => {
+                video.play();
+            };
+        })
+        .catch( () => {
+            alert('You have give browser the permission to run Webcam and mic ;( ');
+        });
+
+	 startIt();
+
+	 }
+
+	 function startIt() { 
+                document.getElementById('message').innerHTML="Waiting for a vote...";
+
+  		var audio_bgm = document.getElementById("bgm");
+  		audio_bgm.volume = 0.1;
+                audio_bgm.loop = true;
+  		audio_bgm.play();
+                WebSocketStart()
+	 }
+
+         function WebSocketStart() {
+            
+            if ("WebSocket" in window) {
+               // alert("WebSocket is supported by your Browser!");
+               
+               // Let us open a web socket
+               var ws = new WebSocket(websocket_url);
+               //var ws = new WebSocket("ws://127.0.0.1:9998/robot");
+				
+               ws.onopen = function() {
+                  
+                  // Web Socket is connected, send data using send()
+                  //ws.send("right");
+                  //alert("Message is sent...");
+               };
+				
+               ws.onmessage = function (evt) { 
+                  var received_msg = evt.data;
+                  //alert("Message is received...: " + received_msg);
+
+		  switch (received_msg)  {
+                    case "left":
+			left();
+			break;
+		    case "right":
+			right();
+			break;
+                    case "forward":
+                        forward();
+                        break;
+                    case "reverse":
+                        reverse();
+                        break;
+                    case "stop":
+                        stop();
+                        break;
+                    case "frustration":
+                        oldschool();
+                        break;
+                    case "panic":
+                        ohshit();
+                        break;
+		    case "victory":
+			victory();
+			break;
+		    case "smirk":
+			smirk();
+			break;
+		  }
+               };
+				
+               ws.onclose = function() { 
+                  
+                  // websocket is closed.
+                  //alert("Connection is closed..."); 
+		  startIt();
+               };
+            } else {
+              
+               // The browser doesn't support WebSocket
+               alert("WebSocket NOT supported by your Browser!");
+            }
+         }
+
+         function left(){
+             var audio_sfx = document.getElementById("sfx-left");
+             audio_sfx.volume = 1.0;
+	     audio_sfx.pause();
+             audio_sfx.play();
+             document.getElementById('myImage')
+             .src="all-the-things.jpg";
+             document.getElementById("myImage").style.transform = "scaleX(1)";
+             document.getElementById("myImage").style.transform = "scaleY(1)";
+             document.getElementById('message')
+             .innerHTML="LEFT!";
+         }
+          
+         function right(){
+             var audio_sfx = document.getElementById("sfx-right");
+             audio_sfx.volume = 1.0;
+             audio_sfx.play();
+             document.getElementById('myImage')
+             .src="all-the-things.jpg";
+             document.getElementById("myImage").style.transform = "scaleY(1)";
+	     document.getElementById("myImage").style.transform = "scaleX(-1)";
+             document.getElementById('message')
+             .innerHTML="RIGHT!";
+         }
+
+         function victory(){
+             var audio_sfx = document.getElementById("sfx-victory");
+             audio_sfx.volume = 1.0;
+             audio_sfx.play();
+             document.getElementById('myImage')
+             .src="victory.jpg";
+             document.getElementById("myImage").style.transform = "scaleX(1)";
+             document.getElementById("myImage").style.transform = "scaleY(1)";
+             document.getElementById('message')
+             .innerHTML="VICTORY!";
+         }
+
+         function forward(){
+             var audio_sfx = document.getElementById("sfx-forward");
+             audio_sfx.volume = 1.0;
+             audio_sfx.play();
+             document.getElementById('myImage')
+             .src="all-the-things.jpg";
+             document.getElementById("myImage").style.transform = "scaleX(1)";
+             document.getElementById("myImage").style.transform = "scaleY(1)";
+             document.getElementById('message')
+             .innerHTML="FORWARD!";
+         }
+         function reverse(){
+             var audio_sfx = document.getElementById("sfx-reverse");
+             audio_sfx.volume = 1.0;
+             audio_sfx.play();
+             document.getElementById('myImage')
+             .src="all-the-things.jpg";
+             document.getElementById("myImage").style.transform = "scaleX(1)";
+             document.getElementById("myImage").style.transform = "scaleY(-1)";
+             document.getElementById('message')
+             .innerHTML="REVERSE!";
+         }
+         function stop(){
+             var audio_sfx = document.getElementById("sfx-stop");
+             audio_sfx.volume = 1.0;
+             audio_sfx.play();
+             document.getElementById('myImage')
+             .src="stop.jpg";
+             document.getElementById("myImage").style.transform = "scaleX(1)";
+             document.getElementById("myImage").style.transform = "scaleY(1)";
+             document.getElementById('message')
+             .innerHTML="STOP!";
+         }
+         function smirk(){
+             var audio_sfx = document.getElementById("sfx-umad");
+             audio_sfx.volume = 1.0;
+             audio_sfx.play();
+             document.getElementById('myImage')
+             .src="smirk.png";
+             document.getElementById("myImage").style.transform = "scaleX(1)";
+             document.getElementById("myImage").style.transform = "scaleY(1)";
+             document.getElementById('message')
+             .innerHTML="U MAD BRO?!";
+         }
+         function ohshit(){
+             var audio_sfx = document.getElementById("sfx-ohshit");
+             audio_sfx.volume = 1.0;
+             audio_sfx.pause();
+             audio_sfx.play();
+             document.getElementById('myImage')
+             .src="oh-shit.gif";
+             document.getElementById("myImage").style.transform = "scaleX(1)";
+             document.getElementById("myImage").style.transform = "scaleY(1)";
+             document.getElementById('message')
+             .innerHTML="OH SH!7 @#!";
+         }
+         function oldschool(){
+             var audio_sfx = document.getElementById("sfx-oldschool");
+             audio_sfx.volume = 1.0;
+             audio_sfx.play();
+             document.getElementById('myImage')
+             .src="old-school.jpg";
+             document.getElementById("myImage").style.transform = "scaleX(1)";
+             document.getElementById("myImage").style.transform = "scaleY(1)";
+             document.getElementById('message')
+             .innerHTML="WTFFFFF!!!";
+         }
+      </script>
+   </head>
+   <body>
+      <audio id="bgm" src="bg-music.mp3"></audio>
+      <audio id="sfx-left" src="left.wav"></audio>
+      <audio id="sfx-right" src="right.wav"></audio>
+      <audio id="sfx-forward" src="forward.wav"></audio>
+      <audio id="sfx-reverse" src="reverse.wav"></audio>
+      <audio id="sfx-stop" src="stop.wav"></audio>
+      <audio id="sfx-ohshit" src="ohshit.mp3"></audio>
+      <audio id="sfx-oldschool" src="oldschool.mp3"></audio>
+      <audio id="sfx-umad" src="umad.mp3"></audio>
+
+      <div class="">
+         <div class="row">
+            <div class="column">
+               <h1 id="message">
+                   Freeswitch drives a DANGEROUS Robot Car
+	           <button onclick="initVideo()">Lets go!</button>
+               </h1>
+               <img  id="myImage"
+                   src="knifecar.jpg"  >
+            </div>
+         <div class="column">
+	    <div id=thevideo style="margin-top: 75px; margin-left:  20px; ">
+      	      <video id="video" width=800 height=568 autoplay></video>
+            </div>
+	 </div>
+      </div>
+      <div><h1>Call or Text: <span id="phoone_number">207-810-7810</span></h1><h2>Cmds:  GO / 2 (dtmf) | LEFT / 4 (dtmf) | RIGHT / 6 (dtmf) | BACKWARD or STOP / 8 (dtmf) ... or.. swear at it with your voice!</h2></div>
+
+   </body>
+</html>

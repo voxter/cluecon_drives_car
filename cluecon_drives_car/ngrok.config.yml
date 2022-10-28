@@ -1,0 +1,5 @@
+version: 2
+tunnels:
+  cluecon-drives-car:
+    proto: http
+    addr: 7000

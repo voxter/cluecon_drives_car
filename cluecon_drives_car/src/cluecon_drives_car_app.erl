@@ -1,0 +1,11 @@
+-module(cluecon_drives_car_app).
+-behaviour(application).
+
+-export([start/2]).
+-export([stop/1]).
+
+start(_Type, _Args) ->
+	cluecon_drives_car_sup:start_link().
+
+stop(_State) ->
+	ok.

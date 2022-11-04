@@ -47,9 +47,4 @@ You can use [the set-baud-rate sketch](./set-baud-rate/set-baud-rate.ino) to try
 
 ## Misc
 
-- `bt-test.c` is based on `rfcomm-serial-setname.c` and was used for testing communication with the BT module/Arduino while the Erlang app was under development. It's not compatible with the current version of [the robot car Scratch](./Smart_Robot_Car_K0070_scratch/Smart_Robot_Car_K0070_scratch.ino), but I think you only have to uncomment the lines
-
-      //  Serial.print("Version: ");
-      //  Serial.println(mVersion);
-
-  to restore compatibility. At this point, it might just be easier to use the Erlang code.
+- `bt-test.c` is based on `rfcomm-serial-setname.c` and was used for testing communication with the BT module/Arduino while the Erlang app was under development. At this point, it might just be easier to use the Erlang code.

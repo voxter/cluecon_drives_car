@@ -23,7 +23,6 @@ union {
   short shortVal;
 } valShort;
 
-
 String mVersion = "0d.01.105";
 boolean isAvailable = false;
 boolean isBluetooth = false;
@@ -38,8 +37,6 @@ char serialRead;
 
 // define the device ID
 #define ROBOTCAR 54
-#define ULTRASONIC_SENSOR 55
-#define IR_SENSOR 57
 
 #define RUN 2
 #define RESET 4

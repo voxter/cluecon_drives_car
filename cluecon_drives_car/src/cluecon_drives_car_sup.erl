@@ -17,7 +17,13 @@ init([]) ->
 			, {"/dashboard", cdc_dashboard_ws, []}
 			]}
 	]),
-	{ok, _} = cowboy:start_clear(cdc_webhook, [{port, 7000}], #{env => #{ dispatch => Dispatch }}),
+
+	WebServerPort = case os:getenv("WEB_SERVER_PORT") of
+		false -> 7000;
+		WebServerPortStr -> list_to_integer(WebServerPortStr)
+	end,
+
+	{ok, _} = cowboy:start_clear(cdc_webhook, [{port, WebServerPort}], #{env => #{ dispatch => Dispatch }}),
 
 	% this is terrible, but some erlang devs aren't really erlang devs.
 	_ = serial:start(),

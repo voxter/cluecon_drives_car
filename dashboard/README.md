@@ -16,4 +16,5 @@ or have it served publicly, there are some steps you'll need to take.
 
 # Running
 
-Host `car-thing.html`, or open it in a browser.
+1. If you're using it, connect the FPV receiver described in [the root README](../README.md).
+2. Host `car-thing.html`, or open it in a browser.
